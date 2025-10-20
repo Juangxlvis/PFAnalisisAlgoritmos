@@ -12,7 +12,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 load_dotenv()
 
-DOWNLOAD_FOLDER = os.path.join(os.path.dirname(__file__), "..", "downloads", "science_test_debug")
+DOWNLOAD_FOLDER = os.path.join(os.path.dirname(__file__), "..", "downloads", "science_direct")
 os.makedirs(DOWNLOAD_FOLDER, exist_ok=True)
 
 chrome_options = Options()
@@ -545,7 +545,7 @@ def science_test_debug():
         # --- CAMBIAR A 100 RESULTADOS POR PÁGINA ---
         change_results_per_page(driver, 100)
 
-        MAX_PAGES_TO_DOWNLOAD = 10
+        MAX_PAGES_TO_DOWNLOAD = 2
         downloaded_pages = 0
         manual_page_counter = 1
 
