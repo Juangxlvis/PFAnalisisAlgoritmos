@@ -14,7 +14,7 @@ def ejecutar_req1():
     downloads_folder = 'downloads'
 
     if not os.path.isdir(downloads_folder):
-        print(f"❌ Error: La carpeta '{downloads_folder}' no existe.")
+        print(f"Error: La carpeta '{downloads_folder}' no existe.")
         print("   Por favor, primero ejecuta los scrapers para descargar los archivos.")
         return
 
@@ -33,10 +33,10 @@ def ejecutar_req1():
                     all_articles.extend(normalized_entries)
                     print(f"  - Procesado archivo '{file_path}' con {len(normalized_entries)} artículos.")
                 except Exception as e:
-                    print(f"  - ⚠️  Error al procesar el archivo '{file_path}': {e}")
+                    print(f"  -Error al procesar el archivo '{file_path}': {e}")
     
     if not all_articles:
-        print("❌ No se encontraron artículos válidos en la carpeta 'downloads'.")
+        print("No se encontraron artículos válidos en la carpeta 'downloads'.")
         return
 
     print(f"\n[INFO] Se encontraron un total de {len(all_articles)} artículos (antes de deduplicar).")
@@ -53,11 +53,11 @@ def ejecutar_req1():
     ruta_unificados = os.path.join(output_dir, 'articulos_unificados.bib')
     ruta_duplicados = os.path.join(output_dir, 'articulos_duplicados.bib')
     
-    save_bibtex(ruta_unificados, articulos_unicos) # De utils.py
-    save_bibtex(ruta_duplicados, articulos_duplicados) # De utils.py
+    save_bibtex(ruta_unificados, articulos_unicos)
+    save_bibtex(ruta_duplicados, articulos_duplicados) 
 
     print("\n" + "="*40)
-    print("🎉 ¡PROCESO DE UNIFICACIÓN COMPLETADO! 🎉")
+    print("PROCESO DE UNIFICACIÓN COMPLETADO")
     print(f"  - {len(articulos_unicos)} artículos únicos guardados en '{ruta_unificados}'")
     print(f"  - {len(articulos_duplicados)} artículos duplicados guardados en '{ruta_duplicados}'")
     print("="*40)

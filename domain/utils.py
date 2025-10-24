@@ -41,15 +41,15 @@ def leer_bibtex(file_path):
         bib_database = bibtexparser.loads(cleaned_content, parser=parser)
         
         if not bib_database.entries:
-            print(f"⚠️  Advertencia: 'leer_bibtex' no encontró entradas en {file_path} (después de limpiar).")
+            print(f"Advertencia: 'leer_bibtex' no encontró entradas en {file_path} (después de limpiar).")
             
         return bib_database.entries
             
     except FileNotFoundError:
-        print(f"⚠️  Advertencia: No se encontró el archivo {file_path}")
+        print(f"Advertencia: No se encontró el archivo {file_path}")
         return []
     except Exception as e:
-        print(f"❌ Error crítico leyendo el archivo {file_path}: {e}")
+        print(f"Error crítico leyendo el archivo {file_path}: {e}")
         return []
 
 def normalize_data(entries):
@@ -57,7 +57,7 @@ def normalize_data(entries):
     normalized_articles = []
     for e in entries:
         if not isinstance(e, dict):
-            print(f"⚠️  Omitiendo entrada no válida: {e}")
+            print(f"Omitiendo entrada no válida: {e}")
             continue
             
         normalized_articles.append({

@@ -37,7 +37,7 @@ def wait_for_page_load(driver, timeout=10):
         )
         time.sleep(2)  # Tiempo adicional para elementos dinámicos
     except TimeoutException:
-        print("⚠️ Timeout esperando la carga de la página")
+        print("Timeout esperando la carga de la página")
 
 
 def close_modal_safely(driver):
@@ -56,7 +56,7 @@ def close_modal_safely(driver):
             )
             actions = ActionChains(driver)
             actions.move_to_element(close_button).click().perform()
-            print("✅ Modal cerrado")
+            print("Modal cerrado")
             time.sleep(2)
             return True
         except (TimeoutException, ElementClickInterceptedException):
@@ -66,10 +66,10 @@ def close_modal_safely(driver):
     try:
         driver.find_element(By.TAG_NAME, 'body').send_keys(Keys.ESCAPE)
         time.sleep(2)
-        print("✅ Modal cerrado con ESC")
+        print("Modal cerrado con ESC")
         return True
     except Exception:
-        print("⚠️ No se pudo cerrar el modal")
+        print("No se pudo cerrar el modal")
         return False
 
 
@@ -107,7 +107,7 @@ def has_next_page(driver):
 
         return False, None
     except Exception as e:
-        print(f"⚠️ Error verificando página siguiente: {e}")
+        print(f"Error verificando página siguiente: {e}")
         return False, None
 
 
@@ -151,7 +151,7 @@ def scrape_IEE():
         driver.switch_to.window(main_window)
 
     except Exception as e:
-        print("❌ Error durante el login:", e)
+        print("Error durante el login:", e)
         driver.quit()
         return
 
@@ -161,9 +161,9 @@ def scrape_IEE():
             EC.element_to_be_clickable((By.CSS_SELECTOR, "button.osano-cm-accept-all"))
         )
         button.click()
-        print("✅ Cookies aceptadas")
+        print("Cookies aceptadas")
     except TimeoutException:
-        print("⚠️ Botón de cookies no encontrado (quizás ya aceptado).")
+        print("Botón de cookies no encontrado (quizás ya aceptado).")
 
     # ------------------ SELECCIONAR 100 ------------------
     try:
@@ -175,10 +175,10 @@ def scrape_IEE():
             EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), '100')]"))
         )
         option_100.click()
-        print("✅ Seleccionaste 100 elementos por página.")
+        print("Seleccionaste 100 elementos por página.")
         wait_for_page_load(driver)
     except Exception as e:
-        print("❌ Error al seleccionar 100:", e)
+        print("Error al seleccionar 100:", e)
 
     # ------------------ ITERAR PÁGINAS ------------------
     page_number = 1
@@ -188,7 +188,7 @@ def scrape_IEE():
 
     try:
         while page_number <= MAX_PAGES_TO_DOWNLOAD:
-            print(f"📄 Procesando página {page_number}...")
+            print(f"Procesando página {page_number}...")
             retry_count = 0
             page_success = False
 
@@ -243,20 +243,20 @@ def scrape_IEE():
                         )
                     )
                     download_button.click()
-                    print(f"✅ Página {page_number}: descarga iniciada")
+                    print(f"Página {page_number}: descarga iniciada")
                     time.sleep(10)  # Esperar a que inicie la descarga
 
                     page_success = True
 
                 except (TimeoutException, ElementClickInterceptedException) as e:
                     retry_count += 1
-                    print(f"⚠️ Intento {retry_count}/{max_retries} falló en página {page_number}: {e}")
+                    print(f"Intento {retry_count}/{max_retries} falló en página {page_number}: {e}")
                     if retry_count < max_retries:
                         time.sleep(5)
                         # Intentar cerrar cualquier modal abierto
                         close_modal_safely(driver)
                     else:
-                        print(f"❌ No se pudo procesar la página {page_number} después de {max_retries} intentos")
+                        print(f"No se pudo procesar la página {page_number} después de {max_retries} intentos")
                         break
 
             # Cerrar el modal
@@ -267,7 +267,7 @@ def scrape_IEE():
             has_next, next_element = has_next_page(driver)
 
             if not has_next:
-                print("🏁 No hay más páginas disponibles. Proceso completado.")
+                print("No hay más páginas disponibles. Proceso completado.")
                 break
 
             # Ir a la siguiente página
@@ -275,18 +275,18 @@ def scrape_IEE():
                 driver.execute_script("arguments[0].scrollIntoView(true);", next_element)
                 time.sleep(1)
                 next_element.click()
-                print(f"✅ Navegando a página {page_number + 1}")
+                print(f"Navegando a página {page_number + 1}")
                 page_number += 1
                 wait_for_page_load(driver)
 
             except Exception as e:
-                print(f"❌ Error navegando a la siguiente página: {e}")
+                print(f"Error navegando a la siguiente página: {e}")
                 break
 
     except Exception as e:
-        print(f"❌ Error durante el proceso: {e}")
+        print(f"Error durante el proceso: {e}")
 
-    print(f"📊 Proceso completado. Se procesaron {page_number} páginas.")
+    print(f"Proceso completado. Se procesaron {page_number} páginas.")
     driver.quit()
 
 

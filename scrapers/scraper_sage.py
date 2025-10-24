@@ -83,9 +83,9 @@ def scrape_sage():
                 driver.switch_to.window(main_window)
 
             time.sleep(10)
-            print("✅ Login exitoso")
+            print("Login exitoso")
         except Exception as e:
-            print(f"❌ Error durante el inicio de sesión: {e}")
+            print(f"Error durante el inicio de sesión: {e}")
             driver.quit()
             return
 
@@ -95,16 +95,16 @@ def scrape_sage():
                 EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Accept Non-Essential Cookies')]"))
             )
             aceptCookies.click()
-            print("✅ Cookies aceptadas")
+            print("Cookies aceptadas")
             time.sleep(2)
         except:
-            print("⚠️ Botón de cookies no encontrado o ya aceptado.")
+            print("Botón de cookies no encontrado o ya aceptado.")
 
         MAX_PAGES_TO_DOWNLOAD = 2
 
         # ------------------ ITERAR PÁGINAS ------------------
         for page in range(1, MAX_PAGES_TO_DOWNLOAD+1):
-            print(f"📄 Procesando página {page}")
+            print(f"Procesando página {page}")
 
             time.sleep(5)
 
@@ -114,10 +114,10 @@ def scrape_sage():
                 )
                 driver.execute_script("arguments[0].scrollIntoView();", checkbox)
                 driver.execute_script("arguments[0].click();", checkbox)
-                print(f"✅ Página {page}: artículos seleccionados")
+                print(f"Página {page}: artículos seleccionados")
                 time.sleep(3)
             except Exception as e:
-                print(f"❌ Error al seleccionar resultados en página {page}: {e}")
+                print(f"Error al seleccionar resultados en página {page}: {e}")
                 continue
 
             try:
@@ -126,10 +126,10 @@ def scrape_sage():
                 )
                 driver.execute_script("arguments[0].scrollIntoView();", export_button)
                 ActionChains(driver).move_to_element(export_button).click().perform()
-                print("✅ Botón Export clickeado")
+                print("Botón Export clickeado")
                 time.sleep(10)
             except Exception as e:
-                print(f"❌ Error en exportación: {e}")
+                print(f"Error en exportación: {e}")
                 continue
 
             try:
@@ -138,20 +138,20 @@ def scrape_sage():
                 )
                 select = Select(citation_dropdown)
                 select.select_by_value("bibtex")
-                print("✅ Formato BibTeX seleccionado")
+                print("Formato BibTeX seleccionado")
                 time.sleep(5)
             except Exception as e:
-                print(f"❌ Error al seleccionar BibTeX: {e}")
+                print(f"Error al seleccionar BibTeX: {e}")
                 continue
 
             try:
                 WebDriverWait(driver, 15).until(
                     EC.element_to_be_clickable((By.XPATH, "//a[contains(text(), 'Download citation')]"))
                 ).click()
-                print("✅ Descarga iniciada")
+                print("Descarga iniciada")
                 time.sleep(8)
             except Exception as e:
-                print(f"❌ Error al hacer clic en Download: {e}")
+                print(f"Error al hacer clic en Download: {e}")
                 continue
 
             try:
@@ -159,13 +159,13 @@ def scrape_sage():
                     EC.element_to_be_clickable((By.XPATH, "//button[contains(@alt, 'close')]"))
                 )
                 close_button.click()
-                print("✅ Diálogo de exportación cerrado")
+                print("Diálogo de exportación cerrado")
                 time.sleep(2)
             except:
-                print("⚠️ No se pudo cerrar el diálogo, continuando...")
+                print("No se pudo cerrar el diálogo, continuando...")
 
             if page == MAX_PAGES_TO_DOWNLOAD:
-                print(f"🏁 Límite de {MAX_PAGES_TO_DOWNLOAD} páginas alcanzado.")
+                print(f"Límite de {MAX_PAGES_TO_DOWNLOAD} páginas alcanzado.")
                 break
 
             try:
@@ -173,16 +173,16 @@ def scrape_sage():
                     EC.element_to_be_clickable((By.XPATH, "//li[contains(@class, 'page-item__arrow--next')]/a"))
                 )
                 ActionChains(driver).move_to_element(next_button).click().perform()
-                print(f"✅ Navegando a la página {page + 1}")
+                print(f"Navegando a la página {page + 1}")
                 time.sleep(5)
             except:
-                print("🚩 No hay más páginas disponibles.")
+                print("No hay más páginas disponibles.")
                 break
 
     except Exception as e:
-        print(f"❌ Error general: {e}")
+        print(f"Error general: {e}")
     finally:
-        print("🔄 Finalizando extractor SAGE...")
+        print("Finalizando extractor SAGE...")
         driver.quit()
 
 
