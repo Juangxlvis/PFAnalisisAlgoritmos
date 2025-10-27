@@ -2,7 +2,7 @@
 import os
 # Asegúrate de que la ruta de importación sea correcta.
 # Esto asume que utils.py está en la misma carpeta 'domain'.
-from .utils import leer_bibtex, normalize_data, save_bibtex, buscar_duplicados
+from utils import leer_bibtex, normalize_data, save_bibtex, buscar_duplicados
 
 def ejecutar_req1():
     """

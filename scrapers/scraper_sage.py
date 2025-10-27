@@ -100,7 +100,7 @@ def scrape_sage():
         except:
             print("Botón de cookies no encontrado o ya aceptado.")
 
-        MAX_PAGES_TO_DOWNLOAD = 2
+        MAX_PAGES_TO_DOWNLOAD = 1
 
         # ------------------ ITERAR PÁGINAS ------------------
         for page in range(1, MAX_PAGES_TO_DOWNLOAD+1):

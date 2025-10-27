@@ -184,7 +184,7 @@ def scrape_IEE():
     page_number = 1
     max_retries = 3
 
-    MAX_PAGES_TO_DOWNLOAD = 10
+    MAX_PAGES_TO_DOWNLOAD = 1
 
     try:
         while page_number <= MAX_PAGES_TO_DOWNLOAD:

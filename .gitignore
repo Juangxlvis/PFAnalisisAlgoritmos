@@ -7,3 +7,4 @@ __pycache__/
 
 # Archivo de credenciales
 .env
+GoogleNews-vectors-negative300.bin

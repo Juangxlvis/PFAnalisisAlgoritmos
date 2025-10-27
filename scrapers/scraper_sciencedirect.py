@@ -545,7 +545,8 @@ def science_test_debug():
         # --- CAMBIAR A 100 RESULTADOS POR PÁGINA ---
         change_results_per_page(driver, 100)
 
-        MAX_PAGES_TO_DOWNLOAD = 2
+        MAX_PAGES_TO_DOWNLOAD = 1
+        
         downloaded_pages = 0
         manual_page_counter = 1
 
