@@ -9,6 +9,9 @@ sys.path.append(os.path.join(script_dir, 'scrapers'))
 try:
     from requerimiento1 import ejecutar_req1
     from requerimiento2 import ejecutar_req2
+    from requerimiento3 import ejecutar_req3
+    from requerimiento4 import ejecutar_req4
+    from requerimiento5 import ejecutar_req5
 
     
     from scraper_sciencedirect import science_test_debug
@@ -35,7 +38,7 @@ def mostrar_menu():
     print("-" * 40)
 
 def main():
-    """Función principal que ejecuta el menú."""
+
     while True:
         mostrar_menu()
         opcion = input("Seleccione una opción: ")
@@ -69,21 +72,21 @@ def main():
 
         elif opcion == '3':
             print("\n[INFO] Ejecutando Requerimiento 3...")
-            print("Requerimiento 3 (aún no implementado).")
+            ejecutar_req3()
 
         elif opcion == '4':
             print("\n[INFO] Ejecutando Requerimiento 4...")
-            print("Requerimiento 4 (aún no implementado).")
+            ejecutar_req4()
 
         elif opcion == '5':
             print("\n[INFO] Ejecutando Requerimiento 5...")
-            print("Requerimiento 5 (aún no implementado).")
+            ejecutar_req5()
 
         elif opcion == '9': 
-            print("\nSaliendo del programa. ¡Hasta luego!")
+            print("\nSaliendo del programa.")
             break
         else:
-            print("\nOpción no válida. Por favor, intente de nuevo.")
+            print("\nOpción no válida, por favor, intente de nuevo.")
 
 
 if __name__ == "__main__":

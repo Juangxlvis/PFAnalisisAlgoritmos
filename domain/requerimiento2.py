@@ -10,7 +10,6 @@ from Levenshtein import distance as levenshtein_distance
 from sentence_transformers import SentenceTransformer, util
 from gensim.models import KeyedVectors
 
-# Ruta al archivo unificado (asumiendo que se ejecuta desde main.py en la raíz)
 RUTA_UNIFICADOS = os.path.join('data', 'requerimiento1', 'articulos_unificados.bib')
 
 modelo_sbert = SentenceTransformer('all-MiniLM-L6-v2')
@@ -45,7 +44,7 @@ def seleccionar_articulos(articulos):
         try:
             numeros_str = seleccion.split(',')
             for num_str in numeros_str:
-                indice = int(num_str.strip()) - 1 # Restamos 1 porque las listas empiezan en 0
+                indice = int(num_str.strip()) - 1 
                 if 0 <= indice < len(articulos):
                     indices_seleccionados.append(indice)
                 else:
@@ -53,7 +52,7 @@ def seleccionar_articulos(articulos):
             
             if len(indices_seleccionados) < 2:
                 print("Debe seleccionar al menos dos artículos para comparar.")
-                continue # Vuelve a pedir
+                continue 
             
             articulos_seleccionados = [articulos[i] for i in indices_seleccionados]
             abstracts_seleccionados = [art.get('abstract', '') for art in articulos_seleccionados]
@@ -62,7 +61,6 @@ def seleccionar_articulos(articulos):
             for art in articulos_seleccionados:
                 print(f"  - {art.get('title')}")
                 
-            # Verificar si tienen abstract
             if any(not abstract for abstract in abstracts_seleccionados):
                 print("\nAdvertencia: Uno o más de los artículos seleccionados no tienen abstract.")
             
@@ -130,10 +128,7 @@ def similitud_word2vec(texto1, texto2):
 
 
 def ejecutar_req2():
-    """
-    Función principal del Requerimiento 2:
-    Permite al usuario seleccionar artículos y prepara los abstracts para el análisis.
-    """
+    
     if not os.path.exists(RUTA_UNIFICADOS):
         print(f"Error: No se encuentra el archivo '{RUTA_UNIFICADOS}'.")
         print("   Por favor, ejecute la Opción 1 del menú principal primero.")
