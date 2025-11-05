@@ -35,41 +35,45 @@ def mostrar_lista_articulos(articulos):
         print(f"[{i+1}] {titulo} ({ano})")
 
 def seleccionar_articulos(articulos):
-
+    
     articulos_seleccionados = []
     while True:
         seleccion = input("\nIngrese los números de los artículos a comparar, separados por comas (ej: 1, 5, 10): ")
         indices_seleccionados = []
         
         try:
-            numeros_str = seleccion.split(',')
+            numeros_str = [s.strip() for s in seleccion.split(',') if s.strip() != '']
             for num_str in numeros_str:
-                indice = int(num_str.strip()) - 1 
+                indice = int(num_str) - 1  # convertir a 0-based interno
                 if 0 <= indice < len(articulos):
                     indices_seleccionados.append(indice)
                 else:
-                    print(f"Número fuera de rango: {num_str.strip()}")
+                    print(f"Número fuera de rango: {num_str}")
             
             if len(indices_seleccionados) < 2:
                 print("Debe seleccionar al menos dos artículos para comparar.")
-                continue 
+                continue
             
             articulos_seleccionados = [articulos[i] for i in indices_seleccionados]
             abstracts_seleccionados = [art.get('abstract', '') for art in articulos_seleccionados]
             
             print("\nArtículos seleccionados para comparar:")
-            for art in articulos_seleccionados:
-                print(f"  - {art.get('title')}")
+            for i in indices_seleccionados:
+                t = articulos[i].get('title', 'Sin Título')
+                print(f"  [{i+1}] {t}")
                 
             if any(not abstract for abstract in abstracts_seleccionados):
                 print("\nAdvertencia: Uno o más de los artículos seleccionados no tienen abstract.")
             
-            return abstracts_seleccionados
+            # Retornar también los índices reales (1-based) en el mismo orden seleccionado
+            indices_reales_1based = [i+1 for i in indices_seleccionados]
+            return abstracts_seleccionados, indices_reales_1based
 
         except ValueError:
             print("Error: Por favor, ingrese solo números separados por comas.")
         except Exception as e:
             print(f"Error inesperado: {e}")
+
 
 
 #Funciones de simimlitud clásica
@@ -146,14 +150,18 @@ def ejecutar_req2():
     mostrar_lista_articulos(articulos)
     
     # 3. Obtener los abstracts seleccionados
-    abstracts = seleccionar_articulos(articulos)
+    abstracts, indices_reales = seleccionar_articulos(articulos)
     
     if not abstracts:
         print("No se pudieron obtener los abstracts para la comparación.")
         return
-    
-    # Nombres de artículos abreviados
-    titulos = [articulos[i].get('title', f'Art_{i+1}')[:50] for i in range(len(abstracts))]
+
+    # titulos y titulos_cortos deben corresponder al orden seleccionado
+    titulos = []
+    for idx_1based in indices_reales:
+        art = articulos[idx_1based - 1]  # recuperar artículo original (0-based)
+        titulos.append(art.get('title', f'Art_{idx_1based}')[:50])
+
     n = len(abstracts)
 
     # Diccionario para matrices de cada algoritmo
@@ -196,9 +204,11 @@ def ejecutar_req2():
     titulos_cortos = [abreviar_titulo(t) for t in titulos]
 
     for nombre, matriz in resultados.items():
-        df = pd.DataFrame(matriz, index=titulos_cortos, columns=titulos_cortos)
+        # aquí usamos indices_reales para conservar los números originales
+        numeros_originales = [f"[{indices_reales[i]}] {titulos_cortos[i]}" for i in range(len(titulos_cortos))]
+        df = pd.DataFrame(matriz, index=numeros_originales, columns=numeros_originales)
         print(f"\n=== MATRIZ DE SIMILITUD ({nombre}) ===")
         print(df.round(3).to_string())
         ruta_csv = os.path.join("data/requerimiento2", f"similitud_{nombre}.csv")
         df.to_csv(ruta_csv, index=True, encoding='utf-8-sig')
-        print(f"[OK] Resultados guardados en: {ruta_csv}")   
+        print(f"[OK] Resultados guardados en: {ruta_csv}")

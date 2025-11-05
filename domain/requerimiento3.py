@@ -2,6 +2,8 @@ import os
 import re
 import string
 import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 from sklearn.feature_extraction.text import TfidfVectorizer
 from collections import Counter
 
@@ -77,17 +79,40 @@ def extraer_palabras_tfidf(abstracts, top_n=15):
 
 #Función para guardar y mostrar los resultados
 def mostrar_resultados(frecuencia, nuevas_palabras):
+
     print("\n=== FRECUENCIA DE PALABRAS CLAVE (Categoría: Generative AI in Education) ===")
     df_freq = pd.DataFrame(frecuencia.items(), columns=["Palabra", "Frecuencia"]).sort_values(by="Frecuencia", ascending=False)
+    df_freq.index = range(1, len(df_freq) + 1)
     print(df_freq)
 
     print("\n=== 15 NUEVAS PALABRAS RELEVANTES (TF-IDF) ===")
     df_tfidf = pd.DataFrame(nuevas_palabras, columns=["Palabra", "Peso TF-IDF"])
+    df_tfidf.index = range(1, len(df_tfidf) + 1)
     print(df_tfidf)
 
     # Guardar en CSV
     df_freq.to_csv(os.path.join(OUTPUT_DIR, "frecuencia_palabras_clave.csv"), index=False)
     df_tfidf.to_csv(os.path.join(OUTPUT_DIR, "palabras_relevantes_tfidf.csv"), index=False)
+
+    plt.figure(figsize=(10, 6))
+    sns.barplot(data=df_freq, x="Frecuencia", y="Palabra", hue="Palabra", palette="YlGnBu", dodge=False, legend=False)
+    plt.title("Frecuencia de Palabras Clave - Generative AI in Education", fontsize=12)
+    plt.xlabel("Frecuencia de aparición")
+    plt.ylabel("Palabra clave")
+    plt.tight_layout()
+    plt.savefig(os.path.join(OUTPUT_DIR, "grafico_frecuencia_palabras.png"), dpi=300)
+    plt.close()
+
+    # ======= GRÁFICO 2: Palabras más relevantes por TF-IDF =======
+    plt.figure(figsize=(10, 6))
+    sns.barplot(data=df_tfidf, x="Palabra", y="Peso TF-IDF", hue="Palabra", palette="viridis", dodge=False, legend=False)
+    plt.title("Top 15 Palabras Más Relevantes (TF-IDF)", fontsize=12)
+    plt.xticks(rotation=45, ha="right")
+    plt.xlabel("Palabra")
+    plt.ylabel("Peso TF-IDF promedio")
+    plt.tight_layout()
+    plt.savefig(os.path.join(OUTPUT_DIR, "grafico_tfidf.png"), dpi=300)
+    plt.close()
 
     print(f"\n[OK] Resultados guardados en '{OUTPUT_DIR}'")
 

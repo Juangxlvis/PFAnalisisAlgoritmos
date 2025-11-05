@@ -57,7 +57,7 @@ def calcular_distancias_con_pca(abstracts, n_componentes=50):
 
 
 # Función para graficar el dendograma
-def graficar_dendrograma(distancias, metodo, nombres=None, max_muestras=80):
+def graficar_dendrograma(distancias, metodo, nombres=None, max_muestras=100):
     """Genera un dendrograma legible incluso con miles de abstracts."""
     print(f"[INFO] Generando dendrograma con método: {metodo}")
 

@@ -9,6 +9,7 @@ sys.path.append(os.path.join(script_dir, 'scrapers'))
 try:
     from requerimiento1 import ejecutar_req1
     from requerimiento2 import ejecutar_req2
+    from requerimiento2_visual import ejecutar_req2_viz
     from requerimiento3 import ejecutar_req3
     from requerimiento4 import ejecutar_req4
     from requerimiento5 import ejecutar_req5
@@ -69,6 +70,7 @@ def main():
         elif opcion == '2':
             print("\n[INFO] Ejecutando Requerimiento 2...")
             ejecutar_req2()
+            ejecutar_req2_viz()
 
         elif opcion == '3':
             print("\n[INFO] Ejecutando Requerimiento 3...")
