@@ -20,10 +20,6 @@ METRICAS = [
     "Word2Vec"
 ]
 
-# ==========================================================
-# FUNCIONES AUXILIARES
-# ==========================================================
-
 def generar_heatmap(ruta_csv, metrica):
     """Genera un heatmap a partir del CSV de similitud (con números en los títulos)."""
     df = pd.read_csv(ruta_csv, index_col=0)
@@ -82,8 +78,7 @@ def exportar_pdf(resultados):
         pdf.cell(0, 10, titulo, ln=True, align="C")
         pdf.ln(5)
 
-        # Numerar artículos
-        # Mantener la numeración original del CSV (ya viene numerado)
+    
         df.index = [limpiar_texto(idx) for idx in df.index]
         df.columns = [limpiar_texto(col) for col in df.columns]
 
@@ -117,11 +112,6 @@ def exportar_pdf(resultados):
     pdf.output(ruta_pdf)
     print(f"[OK] PDF generado en {ruta_pdf}")
 
-
-
-# ==========================================================
-# FUNCIÓN PRINCIPAL
-# ==========================================================
 
 def ejecutar_req2_viz():
     print("[INFO] Generando visualización consolidada de similitudes...")

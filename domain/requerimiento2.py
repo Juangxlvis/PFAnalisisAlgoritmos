@@ -44,7 +44,7 @@ def seleccionar_articulos(articulos):
         try:
             numeros_str = [s.strip() for s in seleccion.split(',') if s.strip() != '']
             for num_str in numeros_str:
-                indice = int(num_str) - 1  # convertir a 0-based interno
+                indice = int(num_str) - 1 
                 if 0 <= indice < len(articulos):
                     indices_seleccionados.append(indice)
                 else:
@@ -65,7 +65,6 @@ def seleccionar_articulos(articulos):
             if any(not abstract for abstract in abstracts_seleccionados):
                 print("\nAdvertencia: Uno o más de los artículos seleccionados no tienen abstract.")
             
-            # Retornar también los índices reales (1-based) en el mismo orden seleccionado
             indices_reales_1based = [i+1 for i in indices_seleccionados]
             return abstracts_seleccionados, indices_reales_1based
 
@@ -159,7 +158,7 @@ def ejecutar_req2():
     # titulos y titulos_cortos deben corresponder al orden seleccionado
     titulos = []
     for idx_1based in indices_reales:
-        art = articulos[idx_1based - 1]  # recuperar artículo original (0-based)
+        art = articulos[idx_1based - 1]
         titulos.append(art.get('title', f'Art_{idx_1based}')[:50])
 
     n = len(abstracts)

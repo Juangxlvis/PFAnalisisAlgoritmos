@@ -20,18 +20,13 @@ def leer_bibtex(file_path):
         with open(file_path, 'r', encoding='utf-8') as file:
             lines = file.readlines()
 
-        # --- INICIO DE LA CORRECCIÓN PARA SAGE ---
-        # Pre-procesamos las líneas para eliminar las que están malformadas
         cleaned_content = ""
         for line in lines:
             line_stripped = line.strip()
-            # La línea problemática es la que empieza con 'doi:' y NO tiene un '='
             if line_stripped.startswith("doi:") and "=" not in line:
-                continue  # Ignoramos esta línea malformada
+                continue  
             cleaned_content += line
-        # --- FIN DE LA CORRECCIÓN ---
 
-        # Ahora usamos el parser con el contenido ya limpio
         parser = BibTexParser()
         parser.ignore_errors = True
         parser.allow_duplicate_fields = True
@@ -101,7 +96,6 @@ def buscar_duplicados(articles):
             unicos.append(article)
     return unicos, duplicados
 
-# --- (Asegúrate de copiar el resto de funciones auxiliares de tu utils.py) ---
 
 def graficar_tiempos(mediciones, num_articles):
     """Genera gráfico de comparación de tiempos"""
@@ -143,7 +137,7 @@ def extraer_abstracts_bibtex(ruta):
         bib_database = bibtexparser.loads(cleaned_content, parser=parser)
     
     except Exception as e:
-        print(f"❌ Error crítico leyendo {ruta} en extraer_abstracts: {e}")
+        print(f"Error crítico leyendo {ruta} en extraer_abstracts: {e}")
         return [], []
 
     abstracts = []

@@ -136,8 +136,5 @@ def ejecutar_req3():
     print("\n[INFO] Requerimiento 3 completado exitosamente")
 
 
-# ---------------------------------------------
-# EJECUCIÓN DIRECTA (debug)
-# ---------------------------------------------
 if __name__ == "__main__":
     ejecutar_req3()
