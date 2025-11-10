@@ -1,0 +1,18 @@
+LEYENDA DE ABREVIATURAS (Revistas y Conferencias)
+============================================================
+
+F1    -> Sin fuente
+F10   -> 2025 7th International Conference on Computer Science and Technologies in Education (CSTE)
+F11   -> 2025 IEEE 4th International Conference on Computing and Machine Intelligence (ICMI)
+F12   -> 2025 IEEE 5th International Conference on Computer Communication and Artificial Intelligence (CCAI)
+F13   -> 2025 IEEE International Conference on Artificial Intelligence for Learning and Optimization (ICoAILO)
+F14   -> 2025 IEEE International Conference on Electronics, Energy Systems and Power Engineering (EESPE)
+F15   -> 2025 International Conference on Computational, Communication and Information Technology (ICCCIT)
+F2    -> Otros
+F3    -> 2024 2nd International Conference on Intelligent Data Communication Technologies and Internet of Things (IDCIoT)
+F4    -> 2024 ASU International Conference in Emerging Technologies for Sustainability and Intelligent Systems (ICETSIS)
+F5    -> 2024 IEEE/WIC International Conference on Web Intelligence and Intelligent Agent Technology (WI-IAT)
+F6    -> 2025 2nd International Conference on Artificial Intelligence and Digital Technology (ICAIDT)
+F7    -> 2025 2nd International Conference on Informatics Education and Computer Technology Applications (IECA)
+F8    -> 2025 5th International Conference on Artificial Intelligence and Education (ICAIE)
+F9    -> 2025 5th International Conference on Artificial Intelligence, Big Data and Algorithms (CAIBDA)

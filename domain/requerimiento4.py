@@ -7,6 +7,8 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import PCA
 from scipy.cluster.hierarchy import linkage, dendrogram
 from scipy.spatial.distance import pdist, squareform
+from scipy.cluster.hierarchy import cophenet
+
 
 #Configuración de rutas
 RUTA_BIB = os.path.join("data", "requerimiento1", "articulos_unificados.bib")
@@ -70,6 +72,8 @@ def graficar_dendrograma(distancias, metodo, nombres=None, max_muestras=100):
     condensed_dist = squareform(distancias, checks=False)
     linkage_matrix = linkage(condensed_dist, method=metodo)
 
+    coph_corr, _ = cophenet(linkage_matrix, condensed_dist)
+
     plt.figure(figsize=(12, 6))
     dendrogram(linkage_matrix, labels=nombres, leaf_rotation=90, leaf_font_size=8, color_threshold=0.7)
     plt.title(f"Dendrograma de Clustering Jerárquico ({metodo.capitalize()} linkage, PCA)")
@@ -81,6 +85,10 @@ def graficar_dendrograma(distancias, metodo, nombres=None, max_muestras=100):
     plt.savefig(output_path, dpi=300)
     plt.close()
     print(f"[OK] Dendrograma guardado en: {output_path}")
+
+    return coph_corr
+
+    
     
 
 def ejecutar_req4():
@@ -94,10 +102,31 @@ def ejecutar_req4():
     distancias = calcular_distancias_con_pca(abstracts, n_componentes=50)
     nombres = [f"Art{i+1}" for i in range(len(abstracts))]
 
-    for metodo in ["single", "complete", "average"]:
-        graficar_dendrograma(distancias, metodo, nombres)
+    coherencias = {}
 
-    print("\n[INFO] Requerimiento 4 completado exitosamente")
+    for metodo in ["single", "complete", "average"]:
+        coph_corr = graficar_dendrograma(distancias, metodo, nombres)
+        coherencias[metodo] = coph_corr
+
+    plt.figure(figsize=(7, 4))
+    plt.bar(coherencias.keys(), coherencias.values())
+    plt.title("Comparación de coherencia entre métodos de clustering")
+    plt.xlabel("Método de enlace")
+    plt.ylabel("Correlación cofenética")
+    plt.ylim(0, 1)
+    for i, v in enumerate(coherencias.values()):
+        plt.text(i, v + 0.02, f"{v:.3f}", ha='center', fontsize=10)
+    plt.tight_layout()
+
+    output_path = os.path.join(OUTPUT_DIR, "coherencia_metodos.png")
+    plt.savefig(output_path, dpi=300)
+    plt.close()
+    print(f"[OK] Gráfico de coherencia guardado en: {output_path}\n")
+
+    # Mostrar cuál fue el mejor método
+    mejor = max(coherencias, key=coherencias.get)
+    print(f"[RESULTADO] El método con mayor coherencia fue: {mejor.upper()} ({coherencias[mejor]:.3f})")
+    print("\n[INFO] Requerimiento 4 completado exitosamente") 
     print(f"[OK] Dendrogramas generados en: {OUTPUT_DIR}")
 
 
